@@ -1,0 +1,23 @@
+1. definir e fornecer
+distancia percorrida
+preço da gasolia
+consumo por litro do automovel
+
+2. para estimar o valor total da viagem 
+distancia percorrida x (multiplicação) preço da gasolina
+/(divisão) pelo consumo do aultomovel
+
+correção
+1. obter a distancia percorrida na viagem;
+2. obter consumo de transporte;
+3. obter o preço do combustivel;
+4. calcular quantos litros foram gastos;
+5. calcular custo total;
+
+PseudoCódigo
+1. DistanciaPercorrida = obter do usuario (km);
+2. ConsumoTransporte = obter do usuario (km/l);
+3. PreçoCombustivel = obter do usuario (R$);
+4. PreçoEstimadoDaViagem = DistaciaPercorrida/PreçoCombustivel*ConsumoTransporte 
+5. RetornaOValorEstimadoDaViagem = preçoEstimadoDaViagem;
+ 
