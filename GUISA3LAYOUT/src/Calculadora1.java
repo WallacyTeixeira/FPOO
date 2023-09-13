@@ -1,78 +1,102 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Calculadora1 extends JPanel {
-    public Calculadora1() {
-        super();
-        this.add(new JLabel("Calculadora 1 "));
-        BorderLayout border = new BorderLayout();
-        this.setLayout(border);
-        JPanel painel1 = new JPanel();
-        JPanel painel2 = new JPanel();
-        JPanel painel3 = new JPanel();
-        // visor geral
-        JPanel painel4 = new JPanel();
-        // visor 1
-        JPanel painel5 = new JPanel();
-        // visor 2
-        JPanel painel6 = new JPanel();
-        // visor 3
-        JPanel painel7 = new JPanel();
-        // visor 3
-        JPanel painel8 = new JPanel();
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Calculadora de Viagem");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setLayout(new BorderLayout());
+            JPanel painelC = new JPanel(new BorderLayout());
 
-        painel1.setBackground(Color.RED);
-        painel2.setBackground(Color.RED);
-        painel3.setBackground(Color.RED);
-        // visor geral
-        painel4.setBackground(Color.GREEN);
-        // visor 1
-        painel5.setBackground(Color.BLACK);
-        // visor 2
-        painel6.setBackground(Color.BLUE);
-        // visor 3
-        painel7.setBackground(Color.YELLOW);
-        // visor 4
-        painel8.setBackground(Color.PINK);
+            //teclado
+            JPanel painel1 = new JPanel();
+            JPanel painel2 = new JPanel();
+            JPanel painel3 = new JPanel();
+            frame.add(painel1, BorderLayout. WEST);
+            frame.add(painel2, BorderLayout. SOUTH);
+            frame.add(painel3, BorderLayout.EAST);
+            painel1.setLayout(new BoxLayout(painel1, BoxLayout.Y_AXIS));
+            painel2.setLayout(new BoxLayout(painel2, BoxLayout.X_AXIS));
+            painel3.setLayout(new BoxLayout(painel3, BoxLayout.Y_AXIS));
+            for (int i = 0; i < 20; i++) {
+                painel1.add(new JButton(""+(i+1)));
+                painel2.add(new JButton(""+(i+101)));
+                painel3.add(new JButton(""+(i+1001)));
+            }
 
-        painel1.setPreferredSize(new Dimension(50, 100));
-        painel2.setPreferredSize(new Dimension(50, 50));
-        painel3.setPreferredSize(new Dimension(50, 100));
-        // visor geral
-        painel4.setPreferredSize(new Dimension(300, 200));
-        // visor 1
-        painel5.setPreferredSize(new Dimension(800, 400));
-        // visor 2
-        painel6.setPreferredSize(new Dimension(800, 150));
-        // visor 3
-        painel7.setPreferredSize(new Dimension(800, 150));
-        // visor 4
-        painel8.setPreferredSize(new Dimension(800, 150));
+            // Painel de entrada direita
+            JPanel inputPanelRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            JLabel distanciaLabel = new JLabel("Distância (km):");
+            JTextField distanciaTextField = new JTextField(10);
+            distanciaTextField.setFont(new Font("Arial", 0, 48));
 
-        this.add(painel1, BorderLayout.WEST);
-        this.add(painel2, BorderLayout.SOUTH);
-        this.add(painel3, BorderLayout.EAST);
-        this.add(painel4, BorderLayout.CENTER);
-        painel4.add(painel5);
-        painel4.add(painel6);
-        painel4.add(painel7);
-        painel4.add(painel8);
+            inputPanelRight.add(distanciaLabel);
+            inputPanelRight.add(distanciaTextField);
 
-        for (int i = 0; i < 34; i++) {
-        painel1.add(new JButton(""+i));
-        }
-        for (int i = 0; i < 16; i++) {
-        painel2.add(new JButton(""+i + 10));
-        }
-        for (int i = 0; i < 34; i++) {
-        painel3.add(new JButton(""+i+5));
-        }
+            // Painel de entrada esquerda
+            JPanel inputPanelLeft = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            JLabel precoLabel = new JLabel("Preço por litro:");            
+            JTextField precoTextField = new JTextField(10);
+            precoTextField.setFont(new Font("Arial", 0, 48));
+
+            inputPanelLeft.add(precoLabel);
+            inputPanelLeft.add(precoTextField);
+
+            // Painel de entrada centra
+            JPanel inputPanelCenter = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            JLabel consumoLabel = new JLabel("Consumo por litro:");            
+            JTextField consumoTextField = new JTextField(10);
+            consumoTextField.setFont(new Font("Arial", 0, 48));
+
+            inputPanelLeft.add(consumoLabel);
+            inputPanelLeft.add(consumoTextField);
+
+
+            // Painel de botões e resultado no rodapé
+            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            JButton calcularButton = new JButton("Calcular");
+            JLabel resultadoLabel = new JLabel("Custo total:");
+            resultadoLabel.setFont(new Font("Arial", 0, 35));
+
+            buttonPanel.add(calcularButton);
+            buttonPanel.add(resultadoLabel);
+
+            // Painel de resultado
+            JLabel resultadoValor = new JLabel("");
+            resultadoValor.setFont(new Font("Arial", 0, 48));
+            buttonPanel.add(resultadoValor);
+
+            calcularButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        double distancia = Double.parseDouble(distanciaTextField.getText());
+                        double precoLitro = Double.parseDouble(precoTextField.getText());
+                        double consumo = Double.parseDouble(consumoTextField.getText());
+                        //calculo
+                        double custoTotal = distancia * (precoLitro / consumo);
+                        resultadoValor.setText(String.format("%.2f", custoTotal) + " Reais");
+                    } catch (NumberFormatException ex) {
+                        resultadoValor.setText("Entrada inválida");
+                    }
+                }
+            });
+
+            painelC.add(inputPanelRight, BorderLayout.EAST);
+            painelC.add(inputPanelLeft, BorderLayout.WEST);
+            painelC.add(inputPanelCenter, BorderLayout.CENTER);
+            painelC.add(buttonPanel, BorderLayout.SOUTH);
+
+            frame.add(painelC);
+            frame.setDefaultCloseOperation(1);
+
+            frame.pack();
+            frame.setVisible(true);
+        });
     }
+    
 }
+
+
