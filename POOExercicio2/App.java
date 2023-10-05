@@ -4,34 +4,33 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-import LacoRepeticaoWhile.While;
-import POOExercicio1.Pessoas;
-
 public class App {
-    public static void main(String[] args, int cont) {
-        Random rd = new Random(0);
-        //vetor de objetos
-        Agenda pessoas[] = new Agenda[10];
-        //preencher o meu vetor/array
-        for (int i = 0; i < pessoas.length; i++) {
-            //construtor de objetos
-            pessoas[i]= new Agenda();
-            //preencher os atributos
-            pessoas[i].setNome("Pessoa"+i);
-            pessoas[i].setAltura(i);
-            pessoas[i].setIdade(i+18);
+    public static void main(String[] args) {
+        Random rd = new Random();
+        //criar um array de objetos
+        Agenda contatos[] = new Agenda[10];
+        //criar e preencher os objetos
+        for (int i = 0; i < contatos.length; i++) {
+            contatos[i] = new Agenda();
+            //preencher os atributos do objjeto
+            contatos[i].setNome(JOptionPane.showInputDialog("Nome:"));
+            contatos[i].setIdade(i+18);
+            contatos[i].setAltura(rd.nextDouble(1.5,2));
         }
-        //buscador
-        String nomeDigitado =//scanner ou JOptionPane
-        // enquanto nomeDIgitado != nome  do objeto
-        //cont e procure
-        int cont = 0;
-        while(nomeDigitado!=pessoas[cont].getNome()){
-
+        //busca de um objetos da Agenda(nome)
+        String nomeBuscado = JOptionPane.showInputDialog(
+                            "Informe o Nome Buscado");
+        int cont=0;// contador
+        boolean procure = true;
+        while(procure){//enquanto procure for verdadeiro loop
+            if(nomeBuscado.equals(contatos[cont].getNome())){
+                procure = false;//parar o laço
+                JOptionPane.showMessageDialog(null,
+                    "Idade: "+contatos[cont].getIdade()
+                    +"\nAltura: "+contatos[cont].getAltura());
+            }
             cont++;
         }
-        System.out.println("Nome: "+pessoas[cont].getNome()
-                            +"Idade: "+pessoas[cont].getIdade()
-                            +"Altura: "+pessoas[cont].getAltura());
+
     }
 }

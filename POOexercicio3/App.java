@@ -1,43 +1,43 @@
-package POOExercicio3;
+package POOexercicio3;
 
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 public class App {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        // criar o elevador
+        // criar o objeto elevador
         Elevador elevador1 = new Elevador(10, 10);
-        // iniciar
-        elevador1.inicializa();
+        elevador1.iniciar();//
+        // elevador em funcionamento
         boolean ligado = true;
-        // loop do elevador
+        int atuacao = 0;
         while (ligado) {
-            System.out.println("Digite a ação desejada"
-                    + "\n1-Entrar"
-                    + "\n2-Sair"
-                    + "\n3-Subir"
-                    + "\n4-Descer"
-                    + "\n5-Desligar");
-            int acao = sc.nextInt();
-            switch (acao) {
+            System.out.println("Escolha a ação do elevador:\n"
+                    + "1. Entrar Pessoa\n"
+                    + "2. Descer Pessoa\n"
+                    + "3. Escolha um Andar\n"
+                    + "4. Desligar");
+            atuacao = sc.nextInt();
+            switch (atuacao) {
                 case 1:
-                    System.out.println("Capacidade Atual: " + elevador1.entra());
+                    System.out.println("Capacidade: " + elevador1.entrar());
                     break;
                 case 2:
-                    System.out.println("Capacidade Atual: " + elevador1.sai());
+                    System.out.println("Capacidade: " + elevador1.sair());
                     break;
                 case 3:
-                    System.out.println("Quantos Andares Deseja Subir");
-                    System.out.println("Andar Atual: " + elevador1.subir(sc.nextInt()));
+                    elevador1.acao(Integer.parseInt(
+                        JOptionPane.showInputDialog(
+                            "Informe o Andar Desejado")));
+                    System.out.println("Andar Atual"+elevador1.getAndarAtual());
                     break;
-                case 4:
-                    System.out.println("Quantos Andares Deseja Descer");
-                    System.out.println("Andar Atual: " + elevador1.descer(sc.nextInt()));
-                    break;
-                case 5:
+                case 4 :
                     ligado = false;
-                default: 
-                    System.out.println("Digite um ação válida");
+                    break;                    
+                default:
+                    JOptionPane.showMessageDialog(null, "Informe uma ação válida");
                     break;
             }
         }

@@ -1,69 +1,72 @@
-package POOExercicio3;
+package POOexercicio3;
+
+
+import javax.swing.JOptionPane;
 
 public class Elevador {
     //atributos
-    int nMaxAndares;
-    int nMaxPessoas;
+    int capacidadeMax;
+    int nMaxAndar;
     int andarAtual;
-    int qtdPessoasAtual;
-    //métodos
-    //cosntrutor
-    public Elevador(int nMaxAndares, int nMaxPessoas) {
-        this.nMaxAndares = nMaxAndares;
-        this.nMaxPessoas = nMaxPessoas;
+    int capacidadeAtual;
+    //métodos - construtor
+    public Elevador(int capacidadeMax, int nMaxAndar) {
+        this.capacidadeMax = capacidadeMax;
+        this.nMaxAndar = nMaxAndar;
+        capacidadeAtual = 0;//predefinidas
+        andarAtual = 0;//predefinido
     }
-    //gets and sets
+    //set and get
     public int getAndarAtual() {
         return andarAtual;
     }
     public void setAndarAtual(int andarAtual) {
         this.andarAtual = andarAtual;
     }
-    public int getQtdPessoasAtual() {
-        return qtdPessoasAtual;
+    public int getCapacidadeAtual() {
+        return capacidadeAtual;
     }
-    public void setQtdPessoasAtual(int qtdPessoasAtual) {
-        this.qtdPessoasAtual = qtdPessoasAtual;
+    public void setCapacidadeAtual(int capacidadeAtual) {
+        this.capacidadeAtual = capacidadeAtual;
     }
-    //métodos próprios
-    public void inicializa() {
-        andarAtual = 0;
-        qtdPessoasAtual = 0;
-    }
-    //entra
-    public int entra(){
-        if(qtdPessoasAtual<nMaxPessoas){
-        qtdPessoasAtual++;
+    //metodos adicionais
+    //entrar
+    public int entrar(){
+        if(capacidadeAtual<capacidadeMax){
+            capacidadeAtual++;
         }else{
-            System.out.println("Não vai subir Ningué!!!");
+            JOptionPane.showMessageDialog(null,
+            "Capacidade Máxima Atingida \n Não vai subir ninguem");
         }
-        return qtdPessoasAtual;
+        return capacidadeAtual ;
     }
-    //sai
-    public int sai(){
-        if(qtdPessoasAtual>0){
-        qtdPessoasAtual--;
+    //sair
+    public int sair(){
+        if(capacidadeAtual>0){
+            capacidadeAtual--;
         }else{
-            System.out.println("Não tem ninguém para descer");
+            JOptionPane.showMessageDialog(null,
+            "não tem ninguem para sair");
         }
-        return qtdPessoasAtual;
+        return capacidadeAtual ;
     }
-    //subir
-    public int subir(int nAndares){
-        if(andarAtual+nAndares<=nMaxAndares){
-            andarAtual+=nAndares;
-        } else{
-            System.out.println("Digite um nº válido para subir");
+    //subir e descer
+    public int acao(int nAndares){
+        if(nAndares<=nMaxAndar && nAndares>=0 && nAndares!=andarAtual){
+            andarAtual=nAndares;
+        }else{
+            JOptionPane.showMessageDialog(null, 
+            "Digite um Andar Válido");
         }
         return andarAtual;
     }
-    //descer
-    public int descer(int nAndares){
-        if(andarAtual-nAndares>=0){
-            andarAtual-=nAndares;
-        } else{
-            System.out.println("Digite um nº válido para descer");
-        }
-        return andarAtual;
-    }   
+    //iniciar
+    public void iniciar() {
+        andarAtual=0;
+        capacidadeAtual = 0;
+    }
+
+
+    
+    
 }

@@ -3,100 +3,130 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Calculadora1 extends JPanel {
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Calculadora de Viagem");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setLayout(new BorderLayout());
-            JPanel painelC = new JPanel(new BorderLayout());
+public class Calculadora1 extends JPanel  {
+    private JTextField caixa1; // Campo de texto onde os números e o resultado são exibidos
+    private JLabel operacaoLabel; // Rótulo para mostrar a operação atual
+    private double numeroAnterior = 0; // Armazena o número anterior digitado
+    private String operador = ""; // Armazena o operador (+, -, *, /)
+    private boolean novoNumero = true; // Verifica se é um novo número
 
-            //teclado
-            JPanel painel1 = new JPanel();
-            JPanel painel2 = new JPanel();
-            JPanel painel3 = new JPanel();
-            frame.add(painel1, BorderLayout. WEST);
-            frame.add(painel2, BorderLayout. SOUTH);
-            frame.add(painel3, BorderLayout.EAST);
-            painel1.setLayout(new BoxLayout(painel1, BoxLayout.Y_AXIS));
-            painel2.setLayout(new BoxLayout(painel2, BoxLayout.X_AXIS));
-            painel3.setLayout(new BoxLayout(painel3, BoxLayout.Y_AXIS));
-            for (int i = 0; i < 20; i++) {
-                painel1.add(new JButton(""+(i+1)));
-                painel2.add(new JButton(""+(i+101)));
-                painel3.add(new JButton(""+(i+1001)));
-            }
+    public Calculadora1() {
+        // Configuração da janela principal
+        JFrame janelaP = new JFrame("Calculadora"); // Alteração do título
+        BorderLayout border = new BorderLayout();
+        janelaP.setLayout(border);
+        JPanel painelV = new JPanel(); // Painel para o visor e rótulo
+        JPanel painelB = new JPanel(); // Painel para os botões
+        janelaP.getContentPane().add(painelB, BorderLayout.CENTER);
+        janelaP.getContentPane().add(painelV, BorderLayout.NORTH);
+        painelB.setBackground(Color.gray); // Altera cor do fundo dos botões
+        painelV.setBackground(Color.white); // Altera cor do fundo do display
 
-            // Painel de entrada direita
-            JPanel inputPanelRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            JLabel distanciaLabel = new JLabel("Distância (km):");
-            JTextField distanciaTextField = new JTextField(10);
-            distanciaTextField.setFont(new Font("Arial", 0, 48));
+        // Campo de texto onde os números e o resultado são exibidos
+        caixa1 = new JTextField(15);
+        caixa1.setPreferredSize(new Dimension(caixa1.getPreferredSize().width, 50));
+        caixa1.setFont(new Font("Arial", Font.PLAIN, 24)); // Altera Fonte e tamanho do texto no display
+        caixa1.setHorizontalAlignment(JTextField.RIGHT); // Alinha o texto à direita
+        caixa1.setEditable(false); //Não permite digitar pelo teclado do note
+        caixa1.setBackground(Color.white); // Altera cor do visor
 
-            inputPanelRight.add(distanciaLabel);
-            inputPanelRight.add(distanciaTextField);
+        operacaoLabel = new JLabel(""); // Rótulo inicialmente vazio para a operação
+        operacaoLabel.setFont(new Font("Arial", Font.PLAIN, 18)); // Altera Fonte e tamanho do texto na operação do lado do display
+        painelV.add(caixa1);
+        painelV.add(operacaoLabel); // Adiciona o rótulo ao painel
 
-            // Painel de entrada esquerda
-            JPanel inputPanelLeft = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            JLabel precoLabel = new JLabel("Preço por litro:");            
-            JTextField precoTextField = new JTextField(10);
-            precoTextField.setFont(new Font("Arial", 0, 48));
+        // Layout da grade para os botões
+        GridLayout grid = new GridLayout(4, 4, 10, 10); // Aumento do espaçamento
+        painelB.setLayout(grid);
 
-            inputPanelLeft.add(precoLabel);
-            inputPanelLeft.add(precoTextField);
+        // Textos dos botões
+        String textBotoes[] = { "C", "7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "+", "0", "=" };
 
-            // Painel de entrada centra
-            JPanel inputPanelCenter = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            JLabel consumoLabel = new JLabel("Consumo por litro:");            
-            JTextField consumoTextField = new JTextField(10);
-            consumoTextField.setFont(new Font("Arial", 0, 48));
-
-            inputPanelLeft.add(consumoLabel);
-            inputPanelLeft.add(consumoTextField);
-
-
-            // Painel de botões e resultado no rodapé
-            JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            JButton calcularButton = new JButton("Calcular");
-            JLabel resultadoLabel = new JLabel("Custo total:");
-            resultadoLabel.setFont(new Font("Arial", 0, 35));
-
-            buttonPanel.add(calcularButton);
-            buttonPanel.add(resultadoLabel);
-
-            // Painel de resultado
-            JLabel resultadoValor = new JLabel("");
-            resultadoValor.setFont(new Font("Arial", 0, 48));
-            buttonPanel.add(resultadoValor);
-
-            calcularButton.addActionListener(new ActionListener() {
+        // Adiciona botões à grade
+        for (int i = 0; i < textBotoes.length; i++) {
+            JButton button = new JButton(textBotoes[i]);
+            button.setFont(new Font("Arial", Font.PLAIN, 32)); // Fonte e no tamanho dos numeros dos botões
+            button.setBackground(Color.white); // Altera cor dos botões
+            button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    try {
-                        double distancia = Double.parseDouble(distanciaTextField.getText());
-                        double precoLitro = Double.parseDouble(precoTextField.getText());
-                        double consumo = Double.parseDouble(consumoTextField.getText());
-                        //calculo
-                        double custoTotal = distancia * (precoLitro / consumo);
-                        resultadoValor.setText(String.format("%.2f", custoTotal) + " Reais");
-                    } catch (NumberFormatException ex) {
-                        resultadoValor.setText("Entrada inválida");
-                    }
+                    botaoClicado(e.getActionCommand()); // Trata o clique no botão
                 }
             });
+            painelB.add(button);
+        }
 
-            painelC.add(inputPanelRight, BorderLayout.EAST);
-            painelC.add(inputPanelLeft, BorderLayout.WEST);
-            painelC.add(inputPanelCenter, BorderLayout.CENTER);
-            painelC.add(buttonPanel, BorderLayout.SOUTH);
-
-            frame.add(painelC);
-            frame.setDefaultCloseOperation(1);
-
-            frame.pack();
-            frame.setVisible(true);
-        });
+        // Configurações da janela principal
+        janelaP.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        janelaP.setBounds(500, 200, 500, 600); // Ajuste do tamanho da janela
+        janelaP.setVisible(true);
     }
-    
+
+    // Método para lidar com o clique nos botões
+    private void botaoClicado(String textoBotao) {
+        if (textoBotao.equals("C")) {
+            caixa1.setText(""); // Limpa a caixa de texto
+            operacaoLabel.setText(""); // Limpa o rótulo da operação
+            numeroAnterior = 0;
+            operador = "";
+            novoNumero = true;
+        } else if (textoBotao.matches("[0-9]")) {  //regex permite ler intervalos
+            if (novoNumero) {
+                caixa1.setText(textoBotao);
+                novoNumero = false;
+            } else {
+                caixa1.setText(caixa1.getText() + textoBotao);
+            }
+        } else if (textoBotao.equals("+") || textoBotao.equals("-") || textoBotao.equals("*") || textoBotao.equals("/")) {
+            if (!operador.isEmpty()) {
+                calcularResultado(); // Realiza o cálculo quando já existe um operador
+            }
+            operador = textoBotao;
+            numeroAnterior = Double.parseDouble(caixa1.getText());
+            operacaoLabel.setText(caixa1.getText() + " " + operador); // Atualiza o rótulo da operação
+            novoNumero = true;
+        } else if (textoBotao.equals("=")) {
+            calcularResultado();
+            operador = "";
+        }
+    }
+
+    // Método para calcular o resultado
+    private void calcularResultado() {
+        try {
+            double numeroAtual = Double.parseDouble(caixa1.getText());
+            double resultado = 0;
+
+            switch (operador) {
+                case "+":
+                    resultado = numeroAnterior + numeroAtual;
+                    break;
+                case "-":
+                    resultado = numeroAnterior - numeroAtual;
+                    break;
+                case "*":
+                    resultado = numeroAnterior * numeroAtual;
+                    break;
+                case "/":
+                    if (numeroAtual == 0) {
+                        caixa1.setText("Não é possível dividir por 0");
+                        operacaoLabel.setText(""); // Limpa o rótulo da operação
+                        return;
+                    } else {
+                        resultado = numeroAnterior / numeroAtual;
+                    }
+                    break;
+            }
+
+            caixa1.setText(Double.toString(resultado)); // Exibe o resultado na caixa de texto
+            operacaoLabel.setText(""); // Limpa o rótulo da operação
+            novoNumero = true;
+        } catch (NumberFormatException e) {
+            caixa1.setText("Erro");
+            operacaoLabel.setText(""); // Limpa o rótulo da operação
+        }
+    }
+    // Rodar o programa sem precisar utilizar o App.java
+    // public static void main(String[] args) {
+    //     SwingUtilities.invokeLater(() -> new Calculadora1());
+    // }
 }
-
-

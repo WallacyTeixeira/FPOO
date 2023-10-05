@@ -1,0 +1,5 @@
+exercicio 2
+1. solicitar o ano de nascimento 
+2. calcular a idade ( 2023 - nascimento)
+3. se (idade>=16) entao - pode votar
+4. caso contrario(senão) - não pode votar
