@@ -1,7 +1,5 @@
 import java.util.ArrayList; // Importa a classe ArrayList para gerenciar uma lista de tarefas
 import java.util.List; // Importa a interface List para trabalhar com listas
-import java.util.Locale;
-import java.util.logging.Handler;
 
 import javax.swing.DefaultListModel; // Importa DefaultListModel para usar em uma JList
 import javax.swing.JButton; // Importa JButton para criar botões
@@ -36,6 +34,8 @@ public class TodoList extends JFrame {
     private JButton clearCompletedButton; // Botão para limpar tarefas concluídas
     private List<Task> tasks; // Lista de tarefas
 
+
+
     // CONSTRUTOR
     public TodoList() {
         // Configuração da janela principal
@@ -55,9 +55,16 @@ public class TodoList extends JFrame {
         // Inicializa campos de entrada, botões e JComboBox
         taskInputField = new JTextField(); // Cria um campo de entrada de texto
         addButton = new JButton("Adicionar"); // Cria um botão com rótulo "Adicionar"
+        Color corAdd = new Color(127,255,212);
+        addButton.setBackground(corAdd);
         deleteButton = new JButton("Excluir"); // Cria um botão com rótulo "Excluir"
+        Color corDell = new Color(255, 192, 203);
+        deleteButton.setBackground(corDell);
         markDoneButton = new JButton("Concluir"); // Cria um botão com rótulo "Concluir"
-        filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas", "Concluídas" }); // Cria uma caixa de seleção com opções
+        Color corDone = new Color(218,165,32);
+        markDoneButton.setBackground(corDone);
+        filterComboBox = new JComboBox<>(new String[] { "Todas", "Ativas", "Concluídas" }); // Cria uma caixa de seleção
+                                                                                            // com opções
         clearCompletedButton = new JButton("Limpar Concluídas"); // Cria um botão com rótulo "Limpar Concluídas"
 
         // Configuração do painel de entrada
@@ -66,16 +73,20 @@ public class TodoList extends JFrame {
         inputPanel.add(addButton, BorderLayout.EAST); // Adiciona o botão "Adicionar" à direita do painel
 
         // Configuração do painel de botões
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Cria um novo painel com layout FlowLayout à esquerda
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Cria um novo painel com layout FlowLayout à
+                                                                          // esquerda
         buttonPanel.add(deleteButton); // Adiciona o botão "Excluir" ao painel
         buttonPanel.add(markDoneButton); // Adiciona o botão "Concluir" ao painel
         buttonPanel.add(filterComboBox); // Adiciona a caixa de seleção ao painel
         buttonPanel.add(clearCompletedButton); // Adiciona o botão "Limpar Concluídas" ao painel
 
         // Adiciona os componentes ao painel principal
-        mainPanel.add(inputPanel, BorderLayout.NORTH); // Adiciona o painel de entrada na parte superior do painel principal
-        mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER); // Adiciona a lista de tarefas com barra de rolagem ao centro do painel principal
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH); // Adiciona o painel de botões na parte inferior do painel principal
+        mainPanel.add(inputPanel, BorderLayout.NORTH); // Adiciona o painel de entrada na parte superior do painel
+                                                       // principal
+        mainPanel.add(new JScrollPane(taskList), BorderLayout.CENTER); // Adiciona a lista de tarefas com barra de
+                                                                       // rolagem ao centro do painel principal
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH); // Adiciona o painel de botões na parte inferior do painel
+                                                        // principal
 
         // Adiciona o painel principal à janela
         this.add(mainPanel); // Adiciona o painel principal à janela
@@ -83,128 +94,151 @@ public class TodoList extends JFrame {
 
         // criar os tratamentos de eventos - listener e eventos (FALTA IMPLEMENTAR)
 
-        Handler add = new Handler(); // Cria uma instância de Handler para lidar com a ação do botão "Adicionar"
-        addButton.addActionListener(add); // Adiciona o Handler como ActionListener do botão "Adicionar"
+        Handler botaoAdd = new Handler(); // Cria uma instância de Handler para lidar com a ação do botão "Adicionar"
+        addButton.addActionListener(botaoAdd); // Adiciona o Handler como ActionListener do botão "Adicionar"
 
-        Handler2 del = new Handler2(); // Cria uma instância de Handler2 para lidar com a ação do botão "Excluir"
-        deleteButton.addActionListener(del); // Adiciona o Handler2 como ActionListener do botão "Excluir"
+        Handler2 botaoDell = new Handler2(); // Cria uma instância de Handler2 para lidar com a ação do botão "Excluir"
+        deleteButton.addActionListener(botaoDell); // Adiciona o Handler2 como ActionListener do botão "Excluir"
 
-        Handler3 don = new Handler3(); // Cria uma instância de Handler3 para lidar com a ação do botão "Concluir"
-        markDoneButton.addActionListener(don); // Adiciona o Handler3 como ActionListener do botão "Concluir"
+        Handler3 botaoDone = new Handler3(); // Cria uma instância de Handler3 para lidar com a ação do botão "Concluir"
+        markDoneButton.addActionListener(botaoDone); // Adiciona o Handler3 como ActionListener do botão "Concluir"
 
-        Handler4 clr = new Handler4(); // Cria uma instância de Handler4 para lidar com a ação do botão "Limpar Concluídas"
-        clearCompletedButton.addActionListener(clr); // Adiciona o Handler4 como ActionListener do botão "Limpar Concluídas"
+        Handler4 botaoClear = new Handler4(); // Cria uma instância de Handler4 para lidar com a ação do botão "Limpar
+        // Concluídas"
+        clearCompletedButton.addActionListener(botaoClear); // Adiciona o Handler4 como ActionListener do botão "Limpar
+        // Concluídas"
 
-        Handler5 ftr = new Handler5(); // Cria uma instância de Handler5 para lidar com a ação do JComboBox de filtro
-        filterComboBox.addActionListener(ftr); // Adiciona o Handler5 como ActionListener do JComboBox
+        Handler5 filter = new Handler5(); // Cria uma instância de Handler5 para lidar com a ação do JComboBox de filtro
+        filterComboBox.addActionListener(filter); // Adiciona o Handler5 como ActionListener do JComboBox
 
-        Handler6 teclaEnt = new Handler6(); // Cria uma instância de Handler6 para lidar com eventos de tecla no campo de texto
-        taskInputField.addKeyListener(teclaEnt); // Adiciona o Handler6 como KeyListener ao campo de texto
+        Handler6 teclaEnter = new Handler6(); // Cria uma instância de Handler6 para lidar com eventos de tecla no campo
+                                              // de texto
+        taskInputField.addKeyListener(teclaEnter); // Adiciona o Handler6 como KeyListener ao campo de texto
 
-        Handler7 teclaDel = new Handler7(); // Cria uma instância de Handler7 para lidar com eventos de tecla na lista de tarefas
-        taskList.addKeyListener(teclaDel); // Adiciona o Handler7 como KeyListener à lista de tarefas
+        Handler7 teclaDelete = new Handler7(); // Cria uma instância de Handler7 para lidar com eventos de tecla na
+                                               // lista
+                                               // de tarefas
+        taskList.addKeyListener(teclaDelete); // Adiciona o Handler7 como KeyListener à lista de tarefas
 
-        Handler8 mauseConf = new Handler8(); // Cria uma instância de Handler8 para lidar com eventos de mouse na lista de tarefas
-        taskList.addMouseListener(mauseConf); // Adiciona o Handler8 como MouseListener à lista de tarefas
+        Handler8 confirmaMause = new Handler8(); // Cria uma instância de Handler8 para lidar com eventos de mouse na
+                                                 // lista
+        // de tarefas
+        taskList.addMouseListener(confirmaMause); // Adiciona o Handler8 como MouseListener à lista de tarefas
 
     }
 
-    // Classe Handler implementa a interface ActionListener
-public class Handler implements ActionListener {
-    @Override
-    // Método chamado quando o botão "Adicionar" é clicado
-    public void actionPerformed(ActionEvent e) {
-        // Chama o método addTask() para adicionar uma nova tarefa
-        addTask();
-    }
-}
-
-// Classe Handler2 implementa a interface ActionListener
-public class Handler2 implements ActionListener {
-    @Override
-    // Método chamado quando o botão "Excluir" é clicado
-    public void actionPerformed(ActionEvent e) {
-        // Exibe uma caixa de diálogo de confirmação para excluir a tarefa
-        int confirmacao = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir a tarefa?",
-                "Confirmação", JOptionPane.YES_NO_OPTION);
-        // Se a confirmação for sim, chama o método deleteTask() para excluir a tarefa
-        if (confirmacao == JOptionPane.YES_OPTION) {
-            deleteTask();
-        }
-    }
-}
-
-// Classe Handler3 implementa a interface ActionListener
-public class Handler3 implements ActionListener {
-    @Override
-    // Método chamado quando o botão "Concluir" é clicado
-    public void actionPerformed(ActionEvent e) {
-        // Chama o método markTaskDone() para marcar a tarefa como concluída
-        markTaskDone();
-    }
-}
-
-// Classe Handler4 implementa a interface ActionListener
-public class Handler4 implements ActionListener {
-    @Override
-    // Método chamado quando o botão "Limpar Concluídas" é clicado
-    public void actionPerformed(ActionEvent e) {
-        // Chama o método clearCompletedTasks() para limpar tarefas concluídas
-        clearCompletedTasks();
-    }
-}
-
-// Classe Handler5 implementa a interface ActionListener
-public class Handler5 implements ActionListener {
-    @Override
-    // Método chamado quando uma opção é selecionada na caixa de seleção (JComboBox)
-    public void actionPerformed(ActionEvent e) {
-        // Chama o método filterTasks() para filtrar as tarefas
-        filterTasks();
-    }
-}
-
-// Classe Handler6 implementa a interface KeyListener
-public class Handler6 implements KeyListener {
-    @Override
-    // Método chamado quando uma tecla é digitada, mas não será usado neste caso
-    public void keyTyped(KeyEvent e) {
-        // não vou usar
-    }
-
-    @Override
-    // Método chamado quando uma tecla é pressionada, mas não será usado neste caso
-    public void keyPressed(KeyEvent e) {
-        // não vou usar
-    }
-
-    @Override
-    // Método chamado quando uma tecla é liberada
-    public void keyReleased(KeyEvent e) {
-        // Se a tecla "Enter" for pressionada, chama o método addTask() para adicionar uma nova tarefa
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+    // Classe Handler implementa a interface ActionListener para o botão adicinar
+    // tarefa
+    public class Handler implements ActionListener {
+        @Override
+        // Método chamado quando o botão "Adicionar" é clicado
+        public void actionPerformed(ActionEvent e) {
+            // Chama o método addTask() para adicionar uma nova tarefa
             addTask();
         }
     }
-}
 
+    // Classe Handler2 implementa a interface ActionListener para o botão deletar
+    // tarefa
+    public class Handler2 implements ActionListener {
+        @Override
+        // Método chamado quando o botão "Excluir" é clicado
+        public void actionPerformed(ActionEvent e) {
+            int selectedIndex = taskList.getSelectedIndex(); // Obtém o índice da tarefa selecionada na lista
+            if (selectedIndex >= 0 && selectedIndex < tasks.size()) { // Verifica se o índice é válido
+                // Exibe uma caixa de diálogo de confirmação para excluir a tarefa
+                int confirmacao = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir a tarefa?",
+                        "Confirmação", JOptionPane.YES_NO_OPTION);
+                // Se a confirmação for sim, chama o método deleteTask() para excluir a tarefa
+                if (confirmacao == JOptionPane.YES_OPTION) {
+                    deleteTask();
+                }
+            }
+        }
+    }
+
+    // Classe Handler3 implementa a interface ActionListener para o botão concluir
+    // tarefa
+    public class Handler3 implements ActionListener {
+        @Override
+        // Método chamado quando o botão "Concluir" é clicado
+        public void actionPerformed(ActionEvent e) {
+            // Chama o método markTaskDone() para marcar a tarefa como concluída
+            markTaskDone();
+        }
+    }
+
+    // Classe Handler4 implementa a interface ActionListener
+    public class Handler4 implements ActionListener {
+        @Override
+        // Método chamado quando o botão "Limpar Concluídas" é clicado
+        public void actionPerformed(ActionEvent e) {
+            // Chama o método clearCompletedTasks() para limpar tarefas concluídas
+            clearCompletedTasks();
+        }
+    }
+
+    // Classe Handler5 implementa a interface ActionListener
+    public class Handler5 implements ActionListener {
+        @Override
+        // Método chamado quando uma opção é selecionada na caixa de seleção (JComboBox)
+        public void actionPerformed(ActionEvent e) {
+            // Chama o método filterTasks() para filtrar as tarefas
+            filterTasks();
+        }
+    }
+
+    // Classe Handler6 implementa a interface KeyListener
+    public class Handler6 implements KeyListener {
+        @Override
+        // Método chamado quando uma tecla é digitada, mas não será usado neste caso
+        public void keyTyped(KeyEvent e) {
+            // não vou usar
+        }
+
+        @Override
+        // Método chamado quando uma tecla é pressionada, mas não será usado neste caso
+        public void keyPressed(KeyEvent e) {
+            // não vou usar
+        }
+
+        @Override
+        // Método chamado quando uma tecla é liberada
+        public void keyReleased(KeyEvent e) {
+            // Se a tecla "Enter" for pressionada, chama o método addTask() para adicionar
+            // uma nova tarefa
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                addTask();
+            }
+        }
+    }
 
     public class Handler7 implements KeyListener {
         @Override
         public void keyTyped(KeyEvent e) {
-            // Este método é acionado quando uma tecla é digitada, mas não será usado neste caso
+            // Este método é acionado quando uma tecla é digitada, mas não será usado neste
+            // neste caso
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-            // Este método é acionado quando uma tecla é pressionada, mas não será usado neste caso
+            // Este método é acionado quando uma tecla é pressionada, mas não será usado
+            // neste caso
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-                // Este Handler responde à tecla "Delete" pressionada na lista de tarefas e chama o método deleteTask()
-                deleteTask();
+
+                int selectedIndex = taskList.getSelectedIndex(); // Obtém o índice da tarefa selecionada na lista
+                if (selectedIndex >= 0 && selectedIndex < tasks.size()) { // Verifica se o índice é válido
+                    String opcao[] = {"sim", "Nao"}; 
+                    int confirmacao = JOptionPane.showOptionDialog(null, "Tem certeza que deseja excluir a tarefa?", "confirmar", 0, 0, null, opcao, opcao[0]);
+                    if (confirmacao == JOptionPane.YES_OPTION) {
+                        deleteTask();
+                    }
+                }
+
             }
         }
     }
@@ -213,36 +247,45 @@ public class Handler6 implements KeyListener {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2) {
-                // Este Handler responde a um duplo clique na lista de tarefas e chama o método markTaskDone()
+                // Este Handler responde a um duplo clique na lista de tarefas e chama o método
+                // markTaskDone()
                 markTaskDone();
             }
+
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-            // Este método é acionado quando o mouse é pressionado, mas não será usado neste caso
+            // Este método é acionado quando o mouse é pressionado, mas não será usado neste
+            // caso
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            // Este método é acionado quando o mouse é liberado, mas não será usado neste caso
+            // Este método é acionado quando o mouse é liberado, mas não será usado neste
+            // caso
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            // Este método é acionado quando o mouse entra na área da lista de tarefas, mas não será usado neste caso
+            // Este método é acionado quando o mouse entra na área da lista de tarefas, mas
+            // não será usado neste caso
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            // Este método é acionado quando o mouse sai da área da lista de tarefas, mas não será usado neste caso
+            // Este método é acionado quando o mouse sai da área da lista de tarefas, mas
+            // não será usado neste caso
         }
     }
+
+    
 
     // criar os métodos (CRUD)
     private void addTask() {
         // Adiciona uma nova task à lista de tasks
-        String taskDescription = taskInputField.getText().trim(); // Obtém o texto do campo de entrada e remove espaços em branco
+        String taskDescription = taskInputField.getText().trim(); // Obtém o texto do campo de entrada e remove espaços
+                                                                  // em branco
         if (!taskDescription.isEmpty()) { // Verifica se a descrição da tarefa não está vazia
             Task newTask = new Task(taskDescription); // Cria uma nova tarefa com a descrição
             tasks.add(newTask); // Adiciona a nova tarefa à lista de tarefas
@@ -278,7 +321,10 @@ public class Handler6 implements KeyListener {
             if (filter.equals("Todas") || (filter.equals("Ativas") &&
                     !task.isDone()) || (filter.equals("Concluídas") && task.isDone())) {
                 // Verifica se a tarefa deve ser exibida com base no filtro selecionado
-                listModel.addElement(task.getDescription() + (task.isDone() ? " (Concluída)" : "")); // Adiciona a descrição da tarefa à lista exibida na GUI
+                listModel.addElement(task.getDescription() + (task.isDone() ? " (Concluída)" : "")); // Adiciona a
+                                                                                                     // descrição da
+                                                                                                     // tarefa à lista
+                                                                                                     // exibida na GUI
             }
         }
     }
