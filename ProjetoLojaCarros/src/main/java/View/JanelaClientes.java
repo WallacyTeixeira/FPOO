@@ -34,7 +34,7 @@ public class JanelaClientes extends JPanel {
         super();
         // entrada de dados
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new JLabel("Historico de vendas"));
+        add(new JLabel("Histórico de Clientes"));
         JPanel inputPanel = new JPanel();
 
         inputPanel.setLayout(new GridLayout(5, 2));
@@ -60,7 +60,7 @@ public class JanelaClientes extends JPanel {
         botoes.add(editar = new JButton("Editar"));
         botoes.add(apagar = new JButton("Apagar"));
         add(botoes);
-        // tabela de carros
+        // tabela de clientes
         JScrollPane jSPane = new JScrollPane();
         add(jSPane);
         tableModel = new DefaultTableModel(new Object[][] {},
@@ -80,14 +80,14 @@ public class JanelaClientes extends JPanel {
                 linhaSelecionada = table.rowAtPoint(evt.getPoint());
                 if (linhaSelecionada != -1) {
                     clintNome.setText((String) table.getValueAt(linhaSelecionada, 0));
-                    clintEndereço.setText((String) table.getValueAt(linhaSelecionada, 2));
-                    clintContato.setText((String) table.getValueAt(linhaSelecionada, 3));
-                    clintCPF.setText((String) table.getValueAt(linhaSelecionada, 4));
+                    clintEndereço.setText((String) table.getValueAt(linhaSelecionada, 1));
+                    clintContato.setText((String) table.getValueAt(linhaSelecionada, 2));
+                    clintCPF.setText((String) table.getValueAt(linhaSelecionada, 3));
                 }
             }
         });
 
-        // Cria um objeto operacoes da classe CarrosControl para executar operações no
+        // Cria um objeto operacoes da classe ClientesControl para executar operações no
         // banco de dados
         ClientesControl operacoes = new ClientesControl(clientes, tableModel, table);
 
@@ -98,8 +98,8 @@ public class JanelaClientes extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // Chama o método "cadastrar" do objeto operacoes com os valores dos campos de
                 // entrada
-                operacoes.cadastrar(clintNome.getText(), clintEndereço.getText(), Integer.parseInt(clintContato.getText()),
-                        Integer.parseInt(clintCPF.getText()));
+                operacoes.cadastrar(clintNome.getText(), clintEndereço.getText(),
+                        Integer.parseInt(clintContato.getText()), Integer.parseInt(clintCPF.getText()));
 
                 // Limpa os campos de entrada após a operação de cadastro
                 clintNome.setText("");
@@ -115,8 +115,8 @@ public class JanelaClientes extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                operacoes.atualizar(clintNome.getText(), clintEndereço.getText(), Integer.parseInt(clintContato.getText()),
-                        Integer.parseInt(clintCPF.getText()));
+                operacoes.atualizar(clintNome.getText(), clintEndereço.getText(),
+                        Integer.parseInt(clintContato.getText()), Integer.parseInt(clintCPF.getText()));
                 // Limpa os campos de entrada após a operação de atualização
                 clintNome.setText("");
                 clintEndereço.setText("");
@@ -130,8 +130,8 @@ public class JanelaClientes extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Chama o método "apagar" do objeto operacoes com o valor do campo de entrada
-                // "placa"
-                operacoes.apagar(Integer.parseInt( (clintCPF.getText())));
+                // "CPF"
+                operacoes.apagar(Integer.parseInt(clintCPF.getText()));
 
                 // Limpa os campos de entrada após a operação de exclusão
                 clintNome.setText("");
@@ -143,15 +143,14 @@ public class JanelaClientes extends JPanel {
 
     }
 
-    // atualizar Tabela de Carros com o Banco de Dados
+    // atualizar Tabela de Clientes com o Banco de Dados
     private void atualizar() {
         // atualizar tabela pelo banco de dados
         tableModel.setRowCount(0);
         clientes = new ClientesDAO().listarTodos();
-        for (Clientes clientes : clientes) {
-            tableModel.addRow(new Object[] { clientes.getNome(), clientes.getEndereco(), clientes.getContato(),
-                    clientes.getCPF() });
+        for (Clientes cliente : clientes) {
+            tableModel.addRow(new Object[] { cliente.getNome(), cliente.getEndereco(), cliente.getContato(),
+                    cliente.getCPF() });
         }
-
     }
 }

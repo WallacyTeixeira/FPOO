@@ -34,7 +34,7 @@ public class JanelaVendas extends JPanel {
         super();
         // entrada de dados
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new JLabel("Historico de vendas"));
+        add(new JLabel("Histórico de Vendas"));
         JPanel inputPanel = new JPanel();
 
         inputPanel.setLayout(new GridLayout(5, 2));
@@ -60,7 +60,7 @@ public class JanelaVendas extends JPanel {
         botoes.add(editar = new JButton("Editar"));
         botoes.add(apagar = new JButton("Apagar"));
         add(botoes);
-        // tabela de carros
+        // tabela de vendas
         JScrollPane jSPane = new JScrollPane();
         add(jSPane);
         tableModel = new DefaultTableModel(new Object[][] {},
@@ -81,14 +81,14 @@ public class JanelaVendas extends JPanel {
                 linhaSelecionada = table.rowAtPoint(evt.getPoint());
                 if (linhaSelecionada != -1) {
                     vendaComprador.setText((String) table.getValueAt(linhaSelecionada, 0));
-                    vendaModelo.setText((String) table.getValueAt(linhaSelecionada, 2));
-                    vendaData.setText((String) table.getValueAt(linhaSelecionada, 3));
-                    vendaValor.setText((String) table.getValueAt(linhaSelecionada, 4));
+                    vendaModelo.setText((String) table.getValueAt(linhaSelecionada, 1));
+                    vendaData.setText((String) table.getValueAt(linhaSelecionada, 2));
+                    vendaValor.setText((String) table.getValueAt(linhaSelecionada, 3));
                 }
             }
         });
 
-        // Cria um objeto operacoes da classe CarrosControl para executar operações no
+        // Cria um objeto operacoes da classe VendasControl para executar operações no
         // banco de dados
         VendasControl operacoes = new VendasControl(vendas, tableModel, table);
 
@@ -99,7 +99,7 @@ public class JanelaVendas extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // Chama o método "cadastrar" do objeto operacoes com os valores dos campos de
                 // entrada
-                operacoes.cadastrar(vendaComprador.getText(), vendaModelo.getText(), Integer.parseInt(vendaData.getText()),
+                operacoes.cadastrar(vendaComprador.getText(), vendaModelo.getText(), vendaData.getText(),
                         Integer.parseInt(vendaValor.getText()));
 
                 // Limpa os campos de entrada após a operação de cadastro
@@ -115,11 +115,10 @@ public class JanelaVendas extends JPanel {
         editar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                operacoes.atualizar(vendaComprador.getText(), vendaModelo.getText(), Integer.parseInt(vendaData.getText()),
+                operacoes.atualizar(vendaComprador.getText(), vendaModelo.getText(), vendaData.getText(),
                         Integer.parseInt(vendaValor.getText()));
                 // Limpa os campos de entrada após a operação de atualização
-                 vendaComprador.setText("");
+                vendaComprador.setText("");
                 vendaModelo.setText("");
                 vendaData.setText("");
                 vendaValor.setText("");
@@ -131,7 +130,7 @@ public class JanelaVendas extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Chama o método "apagar" do objeto operacoes com o valor do campo de entrada
-                // "placa"
+                // "comprador"
                 operacoes.apagar(vendaComprador.getText());
 
                 // Limpa os campos de entrada após a operação de exclusão
@@ -141,18 +140,16 @@ public class JanelaVendas extends JPanel {
                 vendaValor.setText("");
             }
         });
-
     }
 
-    // atualizar Tabela de Carros com o Banco de Dados
+    // atualizar Tabela de Vendas com o Banco de Dados
     private void atualizar() {
         // atualizar tabela pelo banco de dados
         tableModel.setRowCount(0);
         vendas = new VendasDAO().listarTodos();
-        for (Vendas vendas : vendas) {
-            tableModel.addRow(new Object[] { vendas.getComprador(), vendas.getModelo(), vendas.getData(),
-                    vendas.getValor() });
+        for (Vendas venda : vendas) {
+            tableModel.addRow(new Object[] { venda.getComprador(), venda.getModelo(), venda.getData(),
+                    venda.getValor() });
         }
-
     }
 }

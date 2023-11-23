@@ -36,7 +36,7 @@ public class JanelaCarros extends JPanel {
 
     public JanelaCarros() {
         super();
-        // entrada de dados
+        // Entrada de dados
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(new JLabel("Cadastro Carros"));
         JPanel inputPanel = new JPanel();
@@ -62,7 +62,7 @@ public class JanelaCarros extends JPanel {
         botoes.add(editar = new JButton("Editar"));
         botoes.add(apagar = new JButton("Apagar"));
         add(botoes);
-        // tabela de carros
+        // Tabela de carros
         JScrollPane jSPane = new JScrollPane();
         add(jSPane);
         tableModel = new DefaultTableModel(new Object[][] {},
@@ -73,10 +73,10 @@ public class JanelaCarros extends JPanel {
     // Cria o banco de dados caso não tenha sido criado
     new CarrosDAO().criaTabela();
 
-    // incluindo elementos do banco na criação do painel
+    // Incluindo elementos do banco na criação do painel
     atualizar();
 
-        // tratamento de Eventos
+        // Tratamento de Eventos
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -91,17 +91,14 @@ public class JanelaCarros extends JPanel {
             }
         });
 
-        // Cria um objeto operacoes da classe CarrosControl para executar operações no
-        // banco de dados
+        // Cria um objeto operacoes da classe CarrosControl para executar operações no banco de dados
         CarrosControl operacoes = new CarrosControl(carros, tableModel, table);
 
-        // Configura a ação do botão "cadastrar" para adicionar um novo registro no
-        // banco de dados
+        // Configura a ação do botão "cadastrar" para adicionar um novo registro no banco de dados
         cadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Chama o método "cadastrar" do objeto operacoes com os valores dos campos de
-                // entrada
+                // Chama o método "cadastrar" do objeto operacoes com os valores dos campos de entrada
                 operacoes.cadastrar(carMarcaField.getText(), carModeloField.getText(), carAnoField.getText(),
                         carPlacaField.getText(), carValorField.getText());
 
@@ -114,8 +111,7 @@ public class JanelaCarros extends JPanel {
             }
         });
 
-        // Configura a ação do botão "editar" para atualizar um registro no banco de
-        // dados
+        // Configura a ação do botão "editar" para atualizar um registro no banco de dados
         editar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -135,8 +131,7 @@ public class JanelaCarros extends JPanel {
         apagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Chama o método "apagar" do objeto operacoes com o valor do campo de entrada
-                // "placa"
+                // Chama o método "apagar" do objeto operacoes com o valor do campo de entrada "placa"
                 operacoes.apagar(carPlacaField.getText());
 
                 // Limpa os campos de entrada após a operação de exclusão
@@ -150,15 +145,14 @@ public class JanelaCarros extends JPanel {
 
     }
 
-    // atualizar Tabela de Carros com o Banco de Dados
+    // Atualizar Tabela de Carros com o Banco de Dados
     private void atualizar() {
-        // atualizar tabela pelo banco de dados
+        // Atualizar tabela pelo banco de dados
         tableModel.setRowCount(0);
         carros = new CarrosDAO().listarTodos();
         for (Carros carro : carros) {
             tableModel.addRow(new Object[] { carro.getMarca(), carro.getModelo(), carro.getAno(), carro.getPlaca(),
                     carro.getValor() });
         }
-
     }
 }

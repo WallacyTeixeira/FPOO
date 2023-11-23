@@ -7,13 +7,11 @@ import javax.swing.table.DefaultTableModel;
 
 import Model.Carros;
 
-//import logs.RegistroOperacoes;
-
 public class CarrosControl {
     // atributos
-    private List<Carros> carros;
-    private DefaultTableModel tableModel;
-    private JTable table;
+    private List<Carros> carros; // Lista para armazenar objetos de carros
+    private DefaultTableModel tableModel; // Modelo de tabela para a interface gráfica
+    private JTable table; // Tabela Swing para exibir os dados
 
     // construtor
     public CarrosControl(List<Carros> carros, DefaultTableModel tableModel, JTable table) {
@@ -22,7 +20,7 @@ public class CarrosControl {
         this.table = table;
     }
 
-        // Método para atualizar a tabela de exibição com dados do banco de dados
+    // Método para atualizar a tabela de exibição com dados do banco de dados
     private void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         carros = new CarrosDAO().listarTodos();
@@ -30,7 +28,6 @@ public class CarrosControl {
         for (Carros carro : carros) {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
             tableModel.addRow(new Object[] { carro.getMarca(), carro.getModelo(),
-
                     carro.getAno(), carro.getPlaca(), carro.getValor() });
         }
     }
@@ -56,4 +53,3 @@ public class CarrosControl {
         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
     }
 }
-

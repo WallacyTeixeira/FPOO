@@ -9,9 +9,9 @@ import Model.Vendas;
 
 public class VendasControl {
     // atributos
-    private List<Vendas> vendas;
-    private DefaultTableModel tableModel;
-    private JTable table;
+    private List<Vendas> vendas; // Lista para armazenar objetos de vendas
+    private DefaultTableModel tableModel; // Modelo de tabela para a interface gráfica
+    private JTable table; // Tabela Swing para exibir os dados
 
     // construtor
     public VendasControl(List<Vendas> vendas, DefaultTableModel tableModel, JTable table) {
@@ -24,33 +24,32 @@ public class VendasControl {
     private void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         vendas = new VendasDAO().listarTodos();
-        // Obtém os carros atualizados do banco de dados
+        // Obtém as vendas atualizadas do banco de dados
         for (Vendas venda : vendas) {
-            // Adiciona os dados de cada carro como uma nova linha na tabela Swing
+            // Adiciona os dados de cada venda como uma nova linha na tabela Swing
             tableModel.addRow(new Object[] { venda.getComprador(), venda.getModelo(),
                     venda.getData(), venda.getValor() });
         }
     }
 
-    // Método para cadastrar um novo carro no banco de dados
-    public void cadastrar(String Comprador, String Modelo, int Data, int Valor) {
+    // Método para cadastrar uma nova venda no banco de dados
+    public void cadastrar(String Comprador, String Modelo, String Data, int Valor) {
         new VendasDAO().cadastrar(Comprador, Modelo, Data, Valor);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
     }
 
-    // Método para atualizar os dados de um carro no banco de dados
-    public void atualizar(String Comprador, String Modelo, int Data, int Valor) {
+    // Método para atualizar os dados de uma venda no banco de dados
+    public void atualizar(String Comprador, String Modelo, String Data, int Valor) {
         new VendasDAO().atualizar(Comprador, Modelo, Data, Valor);
         // Chama o método de atualização no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a atualização
     }
 
-    // Método para apagar um carro do banco de dados
+    // Método para apagar uma venda do banco de dados
     public void apagar(String comprador) {
         new VendasDAO().apagar(comprador);
         // Chama o método de exclusão no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
     }
-
 }
